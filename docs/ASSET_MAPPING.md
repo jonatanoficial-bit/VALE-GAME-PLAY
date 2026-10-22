@@ -6,7 +6,7 @@ As capas abaixo já foram integradas ao catálogo. O `id` é estável e será us
 | --- | --- | --- | --- |
 | vale-empires | Vale Empires | `public/assets/covers/vale-empires.png` | `https://vale-empires.vercel.app` |
 | f1-vale-gold-edition | F1 Vale Gold Edition | `public/assets/covers/f1-vale-gold-edition.png` | **definitivo:** `https://jonatanoficial-bit.github.io/F1-VALE-EDITION/` |
-| vale-futebol-manager-2026 | Vale Futebol Manager 2026 | `public/assets/covers/vale-futebol-manager-2026.png` | aguardando planilha |
+| vale-futebol-manager-2026 | Vale Futebol Manager 2026 | `public/assets/covers/vale-futebol-manager-2026.png` | inventário sem acesso informado |
 | vale-chess-3d | Vale Chess 3D | `public/assets/covers/vale-chess-3d.png` | `https://vale-chess-3-d.vercel.app` |
 | vale-gridiron-manager | Vale Gridiron Manager | `public/assets/covers/vale-gridiron-manager.png` | `https://vale-gridiron-manager.vercel.app` |
 | skyward-control | Skyward Control | `public/assets/covers/skyward-control.png` | `https://atc-simulador.vercel.app` |
@@ -18,6 +18,10 @@ As capas abaixo já foram integradas ao catálogo. O `id` é estável e será us
 | tenis-manager | Tênis Manager | `public/assets/covers/tenis-manager.png` | `https://tenis-academia-1-0.vercel.app` |
 | last-horizon | Last Horizon | `public/assets/covers/last-horizon.png` | `https://last-horizon.vercel.app` |
 | band-legacy | Band Legacy | `public/assets/covers/band-legacy.png` | `https://band-legacy.vercel.app` |
+| 190-operador | 190 Operador | `public/assets/covers/190-operador.png` | inventário sem acesso informado |
+| 2030-ultimo-comando | 2030 — O Último Comando | `public/assets/covers/2030-ultimo-comando.png` | inventário sem acesso informado |
+| a-ultima-palavra | A Última Palavra | `public/assets/covers/a-ultima-palavra.png` | inventário sem acesso informado |
+| airport-manager | Airport Manager | `public/assets/covers/airport-manager.jpg` | inventário sem acesso informado |
 
 As variações `vale-empires-dawn.png` e `vale-metro-control-hero.png` foram preservadas na pasta de capas para possíveis banners, slides ou galerias futuras.
 
