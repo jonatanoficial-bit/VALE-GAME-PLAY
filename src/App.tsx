@@ -55,6 +55,7 @@ const progressItems = catalog.filter((item) => item.progress);
 function App() {
   const [section, setSection] = useState<Section>("Início");
   const [query, setQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<Category | "Todos">("Todos");
   const [activeHero, setActiveHero] = useState(0);
   const [detail, setDetail] = useState<CatalogItem | null>(null);
   const [toast, setToast] = useState<{ message: string; caption: string } | null>(null);
@@ -63,7 +64,7 @@ function App() {
   });
 
   useEffect(() => { localStorage.setItem("vale-games-favorites-v1", JSON.stringify(favorites)); }, [favorites]);
-  const matching = useMemo(() => catalog.filter((item) => `${item.title} ${item.category} ${item.format}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const matching = useMemo(() => catalog.filter((item) => `${item.title} ${item.category} ${item.format}`.toLowerCase().includes(query.toLowerCase()) && (activeCategory === "Todos" || item.category === activeCategory)), [activeCategory, query]);
   const heroItems = catalog.slice(0, 3);
   const hero = heroItems[activeHero];
   const toggleFavorite = (item: CatalogItem) => {
@@ -79,7 +80,8 @@ function App() {
     }
     window.setTimeout(() => setToast(null), 3400);
   };
-  const selectMenu = (item: Section) => { setSection(item); setQuery(""); };
+  const selectMenu = (item: Section) => { setSection(item); setQuery(""); setActiveCategory("Todos"); };
+  const exploreCategory = (category: Category | "Todos") => { setActiveCategory(category); setQuery(""); setSection("Explorar"); };
   const sectionItems = section === "Jogos" ? matching.filter((item) => item.format === "Jogo") : section === "Aplicativos" ? matching.filter((item) => item.format === "App") : matching;
 
   return <main className="app-shell">
@@ -91,7 +93,7 @@ function App() {
       <button className="profile" onClick={() => selectMenu("Biblioteca")}><span className="avatar">CS</span><span><b>Meu Perfil</b><small>Assinante</small></span><em>⌄</em></button>
     </header>
 
-    {section === "Início" ? <Home hero={hero} heroItems={heroItems} activeHero={activeHero} setActiveHero={setActiveHero} onOpen={setDetail} onPlay={play} onNavigate={selectMenu} favorites={favorites} onFavorite={toggleFavorite} /> : <CatalogView section={section} items={section === "Biblioteca" ? catalog.filter((item) => favorites.includes(item.id)) : sectionItems} query={query} favorites={favorites} onFavorite={toggleFavorite} onOpen={setDetail} onPlay={play} onNavigate={selectMenu} />}
+    {section === "Início" ? <Home hero={hero} heroItems={heroItems} activeHero={activeHero} setActiveHero={setActiveHero} onOpen={setDetail} onPlay={play} onNavigate={selectMenu} onExploreCategory={exploreCategory} favorites={favorites} onFavorite={toggleFavorite} /> : <CatalogView section={section} items={section === "Biblioteca" ? catalog.filter((item) => favorites.includes(item.id)) : sectionItems} query={query} activeCategory={activeCategory} onSelectCategory={exploreCategory} favorites={favorites} onFavorite={toggleFavorite} onOpen={setDetail} onPlay={play} onNavigate={selectMenu} />}
 
     <nav className="mobile-nav">{menu.map((item, index) => <button key={item} className={section === item ? "active" : ""} onClick={() => selectMenu(item)}><span>{["⌂", "⌕", "◌", "▦", "♡"][index]}</span>{item}</button>)}</nav>
     {detail && <DetailModal item={detail} favorite={favorites.includes(detail.id)} onClose={() => setDetail(null)} onPlay={play} onFavorite={() => toggleFavorite(detail)} />}
@@ -99,22 +101,22 @@ function App() {
   </main>;
 }
 
-function Home({ hero, heroItems, activeHero, setActiveHero, onOpen, onPlay, onNavigate, favorites, onFavorite }: { hero: CatalogItem; heroItems: CatalogItem[]; activeHero: number; setActiveHero: (index: number) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void; onNavigate: (section: Section) => void; favorites: string[]; onFavorite: (item: CatalogItem) => void }) {
+function Home({ hero, heroItems, activeHero, setActiveHero, onOpen, onPlay, onNavigate, onExploreCategory, favorites, onFavorite }: { hero: CatalogItem; heroItems: CatalogItem[]; activeHero: number; setActiveHero: (index: number) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void; onNavigate: (section: Section) => void; onExploreCategory: (category: Category) => void; favorites: string[]; onFavorite: (item: CatalogItem) => void }) {
   return <div className="home-page">
     <section className={`hero hero-${hero.art}`} style={{ "--hero-image": `url("${hero.cover}")` } as CSSProperties}>
       <div className="hero-noise" /><div className="hero-content"><span className="kicker">DESTAQUE DA SEMANA</span><h1>{hero.title}</h1><h2>{hero.tagline}</h2><p>{hero.description}</p><div className="hero-actions"><button className="primary-action" onClick={() => onPlay(hero)}>▶ Jogar agora</button><button className="outline-action" onClick={() => onOpen(hero)}>Detalhes</button></div><div className="hero-dots">{heroItems.map((item, index) => <button aria-label={`Mostrar ${item.title}`} key={item.id} className={activeHero === index ? "selected" : ""} onClick={() => setActiveHero(index)} />)}</div></div><div className="hero-badge"><span>⌘</span><div><small>VALE GAMES PLAY</small><b>Jogos e apps em um só lugar</b></div></div></section>
     <ContentRow title="Continue jogando" action="Ver biblioteca" onAction={() => onNavigate("Biblioteca")}><div className="continue-grid">{progressItems.slice(0, 5).map((item) => <GameCard key={item.id} item={item} compact onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div></ContentRow>
-    <ContentRow title="Explore os jogos" action="Ver todos" onAction={() => onNavigate("Jogos")}><div className="category-grid">{categoryTiles.map((tile) => <button className={`category-tile ${tile.tint}`} onClick={() => onNavigate("Explorar")} key={tile.title}><span>{tile.icon}</span><b>{tile.title}</b><small>{tile.subtitle}</small></button>)}</div></ContentRow>
+    <ContentRow title="Explore os jogos" action="Ver todos" onAction={() => onNavigate("Jogos")}><div className="category-grid">{categoryTiles.map((tile) => <button className={`category-tile ${tile.tint}`} onClick={() => onExploreCategory(tile.title)} key={tile.title}><span>{tile.icon}</span><b>{tile.title}</b><small>{tile.subtitle}</small></button>)}</div></ContentRow>
     <ContentRow title="Em destaque" action="Ver todos" onAction={() => onNavigate("Explorar")}><div className="game-grid">{catalog.slice(0, 4).map((item) => <GameCard key={item.id} item={item} onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div></ContentRow>
     <ContentRow title="Novas capas aprovadas" action="Ver catálogo" onAction={() => onNavigate("Jogos")}><div className="game-grid">{catalog.slice(14, 18).map((item) => <GameCard key={item.id} item={item} onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div></ContentRow>
     <ContentRow title="Música e áudio" action="Abrir aplicativos" onAction={() => onNavigate("Aplicativos")}><div className="audio-row">{catalog.filter((item) => item.category === "Áudio").map((item) => <GameCard key={item.id} item={item} slim onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div></ContentRow>
   </div>;
 }
 
-function CatalogView({ section, items, query, favorites, onFavorite, onOpen, onPlay, onNavigate }: { section: Section; items: CatalogItem[]; query: string; favorites: string[]; onFavorite: (item: CatalogItem) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void; onNavigate: (section: Section) => void }) {
-  const heading = section === "Biblioteca" ? "Minha Biblioteca" : section === "Aplicativos" ? "Aplicativos" : section === "Jogos" ? "Jogos" : "Explorar";
-  const intro = section === "Biblioteca" ? "Seus favoritos ficam salvos neste dispositivo e estarão prontos quando você trouxer os links oficiais." : query ? `Resultados para “${query}”` : "Descubra uma seleção de jogos e aplicativos da Vale Games Play.";
-  return <section className="catalog-page"><div className="catalog-banner"><div><span className="kicker">VALE GAMES PLAY</span><h1>{heading}</h1><p>{intro}</p></div>{section !== "Biblioteca" && <div className="catalog-tabs"><button className={section === "Explorar" ? "active" : ""} onClick={() => onNavigate("Explorar")}>Todos</button><button className={section === "Jogos" ? "active" : ""} onClick={() => onNavigate("Jogos")}>Jogos</button><button className={section === "Aplicativos" ? "active" : ""} onClick={() => onNavigate("Aplicativos")}>Apps</button></div>}</div>{items.length ? <div className="catalog-grid">{items.map((item) => <GameCard key={item.id} item={item} onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div> : <div className="empty-library"><span>♡</span><h2>{section === "Biblioteca" ? "Sua biblioteca está esperando" : "Nenhum resultado encontrado"}</h2><p>{section === "Biblioteca" ? "Abra um título e toque no coração para montarmos sua seleção pessoal." : "Tente buscar por outro título ou categoria."}</p><button className="primary-action" onClick={() => onNavigate("Explorar")}>Explorar catálogo</button></div>}</section>;
+function CatalogView({ section, items, query, activeCategory, onSelectCategory, favorites, onFavorite, onOpen, onPlay, onNavigate }: { section: Section; items: CatalogItem[]; query: string; activeCategory: Category | "Todos"; onSelectCategory: (category: Category | "Todos") => void; favorites: string[]; onFavorite: (item: CatalogItem) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void; onNavigate: (section: Section) => void }) {
+  const heading = section === "Biblioteca" ? "Minha Biblioteca" : section === "Aplicativos" ? "Aplicativos" : section === "Jogos" ? "Jogos" : activeCategory === "Todos" ? "Explorar" : activeCategory;
+  const intro = section === "Biblioteca" ? "Seus favoritos ficam salvos neste dispositivo e estarão prontos quando você trouxer os links oficiais." : query ? `Resultados para “${query}”` : activeCategory !== "Todos" ? `Seleção de ${activeCategory.toLowerCase()} da Vale Games Play.` : "Descubra uma seleção de jogos e aplicativos da Vale Games Play.";
+  return <section className="catalog-page"><div className="catalog-banner"><div><span className="kicker">VALE GAMES PLAY</span><h1>{heading}</h1><p>{intro}</p></div>{section !== "Biblioteca" && <div className="catalog-tabs"><button className={section === "Explorar" ? "active" : ""} onClick={() => onNavigate("Explorar")}>Todos</button><button className={section === "Jogos" ? "active" : ""} onClick={() => onNavigate("Jogos")}>Jogos</button><button className={section === "Aplicativos" ? "active" : ""} onClick={() => onNavigate("Aplicativos")}>Apps</button></div>}</div>{section !== "Biblioteca" && section !== "Aplicativos" && <div className="catalog-filters"><button className={activeCategory === "Todos" ? "active" : ""} onClick={() => onSelectCategory("Todos")}>Todos</button>{categoryTiles.map((tile) => <button className={activeCategory === tile.title ? "active" : ""} key={tile.title} onClick={() => onSelectCategory(tile.title)}>{tile.icon} {tile.title}</button>)}</div>}{items.length ? <div className="catalog-grid">{items.map((item) => <GameCard key={item.id} item={item} onOpen={onOpen} onPlay={onPlay} favorite={favorites.includes(item.id)} onFavorite={onFavorite} />)}</div> : <div className="empty-library"><span>♡</span><h2>{section === "Biblioteca" ? "Sua biblioteca está esperando" : "Nenhum resultado encontrado"}</h2><p>{section === "Biblioteca" ? "Abra um título e toque no coração para montarmos sua seleção pessoal." : "Tente buscar por outro título ou categoria."}</p><button className="primary-action" onClick={() => onNavigate("Explorar")}>Explorar catálogo</button></div>}</section>;
 }
 
 function GameCard({ item, compact = false, slim = false, favorite, onFavorite, onOpen, onPlay }: { item: CatalogItem; compact?: boolean; slim?: boolean; favorite: boolean; onFavorite: (item: CatalogItem) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void }) {
