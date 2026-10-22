@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.GITHUB_ACTIONS ? "/VALE-GAME-PLAY/" : "/",
+  base: process.env.GITHUB_PAGES === "true" ? "/VALE-GAME-PLAY/" : "/",
   build: {
     target: "es2022"
   }
