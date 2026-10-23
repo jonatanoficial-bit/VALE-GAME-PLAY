@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Vale Games Play",
+  "short_name": "Vale Play",
+  "description": "Jogos e aplicativos Vale Games em um só lugar.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020812",
+  "theme_color": "#06101e",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icons/vale-games-play.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

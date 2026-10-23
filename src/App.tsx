@@ -34,6 +34,11 @@ type PlayerSettings = {
   openLinksInNewTab: boolean;
 };
 
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+};
+
 const coverUrl = (fileName: string) => import.meta.env.BASE_URL + "assets/covers/" + fileName;
 
 const categoryMeta: CategoryMeta[] = [
@@ -70,12 +75,14 @@ const catalog: CatalogItem[] = [
   { id: "airport-manager", title: "Airport Manager", productType: "Jogo", category: "Simuladores", subcategory: "Gestão de aeroportos", categoryId: "game-simuladores", art: "airport", cover: coverUrl("airport-manager.jpg"), tagline: "O aeroporto sob seu comando", description: "Planeje operações, administre rotas e faça seu aeroporto crescer com precisão." },
   { id: "diplocraft", title: "Diplocraft", productType: "Jogo", category: "Estratégia", subcategory: "Diplomacia e governo", categoryId: "game-estrategia", art: "diplocraft", cover: coverUrl("diplocraft.png"), tagline: "O mundo em negociação", description: "Conduza cúpulas, negocie acordos e transforme decisões diplomáticas em influência global.", externalUrl: "https://diplografik.vercel.app" },
   { id: "crown-of-state", title: "Crown of State", productType: "Jogo", category: "Estratégia", subcategory: "Governo e decisões políticas", categoryId: "game-estrategia", art: "crown", cover: coverUrl("crown-of-state.png"), tagline: "O peso da coroa", description: "Lidere o Estado, organize seu conselho e defina o futuro de uma nação." },
-  { id: "valley-city-crime-unit", title: "Valley City — Crime Unit (Detetive 2026)", productType: "Jogo", category: "Investigação", subcategory: "Detetive e crimes", categoryId: "game-investigacao", art: "crime", cover: coverUrl("valley-city-crime-unit.png"), tagline: "Todo caso deixa pistas", description: "Analise dossiês, conecte evidências e resolva casos que movimentam Valley City." }
+  { id: "valley-city-crime-unit", title: "Valley City — Crime Unit (Detetive 2026)", productType: "Jogo", category: "Investigação", subcategory: "Detetive e crimes", categoryId: "game-investigacao", art: "crime", cover: coverUrl("valley-city-crime-unit.png"), tagline: "Todo caso deixa pistas", description: "Analise dossiês, conecte evidências e resolva casos que movimentam Valley City." },
+  { id: "modern-war-dominion", title: "Modern War Dominion", productType: "Jogo", category: "Estratégia", subcategory: "Guerra moderna e bases militares", categoryId: "game-estrategia", art: "dominion", cover: coverUrl("modern-war-dominion.png"), tagline: "Comando em escala global", description: "Coordene bases, tecnologia e forças aliadas em um cenário de guerra moderna.", externalUrl: "https://modern-war-dominion.vercel.app" },
+  { id: "moto-racing-manager", title: "Moto Racing Manager", productType: "Jogo", category: "Corridas", subcategory: "Motovelocidade e gestão", categoryId: "game-corridas", art: "moto", cover: coverUrl("moto-racing-manager.png"), tagline: "Velocidade com estratégia", description: "Gerencie pilotos, equipe e cada decisão da temporada nas pistas de motovelocidade.", externalUrl: "https://moto-gp-one.vercel.app" }
 ];
 
 const menu: Section[] = ["Início", "Explorar", "Jogos", "Aplicativos", "Biblioteca"];
 const progressItems = catalog.filter((item) => item.progress !== undefined);
-const newCoverIds = ["diplocraft", "crown-of-state", "valley-city-crime-unit", "190-operador"];
+const newCoverIds = ["modern-war-dominion", "moto-racing-manager", "diplocraft", "crown-of-state", "valley-city-crime-unit", "190-operador"];
 const defaultSettings: PlayerSettings = { controllerNavigation: true, reducedMotion: false, openLinksInNewTab: true };
 
 function readSettings() {
@@ -127,6 +134,7 @@ function App() {
   const [detail, setDetail] = useState<CatalogItem | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<PlayerSettings>(readSettings);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [toast, setToast] = useState<{ message: string; caption: string } | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -144,6 +152,19 @@ function App() {
   }, []);
   useEffect(() => { localStorage.setItem("vale-games-favorites-v1", JSON.stringify(favorites)); }, [favorites]);
   useEffect(() => { localStorage.setItem("vale-games-settings-v1", JSON.stringify(settings)); }, [settings]);
+  useEffect(() => {
+    const capturePrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as BeforeInstallPromptEvent);
+    };
+    const clearPrompt = () => setInstallPrompt(null);
+    window.addEventListener("beforeinstallprompt", capturePrompt);
+    window.addEventListener("appinstalled", clearPrompt);
+    return () => {
+      window.removeEventListener("beforeinstallprompt", capturePrompt);
+      window.removeEventListener("appinstalled", clearPrompt);
+    };
+  }, []);
 
   const selectMenu = useCallback((item: Section) => {
     setSection(item);
@@ -264,12 +285,20 @@ function App() {
   };
 
   const updateSetting = (key: keyof PlayerSettings) => setSettings((current) => ({ ...current, [key]: !current[key] }));
+  const installApp = async () => {
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    const result = await installPrompt.userChoice;
+    setInstallPrompt(null);
+    showToast(result.outcome === "accepted" ? "Vale Games Play instalado" : "Instalação cancelada", result.outcome === "accepted" ? "O aplicativo agora pode ser aberto pela tela inicial do seu celular." : "Você pode instalar depois pelo menu do Chrome.");
+  };
 
   return <main className={["app-shell", settings.reducedMotion ? "reduced-motion" : ""].join(" ")}>
     <header className="topnav">
       <button className="wordmark" onClick={() => selectMenu("Início")} aria-label="Vale Games Play, início"><span className="mark">V</span><span>VALE GAMES <b>PLAY</b></span></button>
       <nav aria-label="Navegação principal">{menu.map((item) => <button key={item} className={section === item ? "active" : ""} onClick={() => selectMenu(item)}>{item}</button>)}</nav>
       <label className="search"><span>⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setSection("Explorar"); }} placeholder="Buscar jogos, categorias..." /></label>
+      {installPrompt && <button className="install-trigger" onClick={installApp}><span>⇩</span><b>Instalar</b></button>}
       <button className="settings-trigger" aria-label="Configurações" onClick={() => setSettingsOpen(true)}>⚙</button>
       <button className="notification" aria-label="Notificações">♧<i /></button>
       <button className="profile" onClick={() => selectMenu("Biblioteca")}><span className="avatar">CS</span><span><b>Meu Perfil</b><small>Assinante</small></span><em>⌄</em></button>
