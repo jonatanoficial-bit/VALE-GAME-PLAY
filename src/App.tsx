@@ -67,7 +67,7 @@ const categoryMeta: CategoryMeta[] = [
   { id: "app-plataformas", title: "Plataformas", icon: "▦", tint: "sky", subtitle: "Vitrine e distribuição" }
 ];
 
-function appCatalogItem(id: string, title: string, category: string, subcategory: string, categoryId: string, repositoryUrl: string, externalUrl?: string): CatalogItem {
+function appCatalogItem(id: string, title: string, category: string, subcategory: string, categoryId: string, repositoryUrl: string, externalUrl?: string, cover?: string): CatalogItem {
   return {
     id,
     title,
@@ -79,13 +79,14 @@ function appCatalogItem(id: string, title: string, category: string, subcategory
     tagline: subcategory,
     description: title + " é um aplicativo da coleção Vale disponível para " + subcategory.toLocaleLowerCase() + ".",
     repositoryUrl,
-    externalUrl
+    externalUrl,
+    cover
   };
 }
 
 const appCatalog: CatalogItem[] = [
   appCatalogItem("placarpro", "PlacarPro", "Esportes", "Placar e estatísticas", "app-esportes", "https://github.com/jonatanoficial-bit/PLACARPRO-1.0"),
-  appCatalogItem("academia-do-brigadista", "Academia do Brigadista", "Educação", "Formação de brigadistas", "app-educacao", "https://github.com/jonatanoficial-bit/academia-do-brigadista"),
+  appCatalogItem("academia-do-brigadista", "Academia do Brigadista", "Educação", "Formação de brigadistas", "app-educacao", "https://github.com/jonatanoficial-bit/academia-do-brigadista", undefined, coverUrl("academia-do-brigadista.png")),
   appCatalogItem("imv-ead", "IMV EAD", "Educação", "Ensino musical a distância", "app-educacao", "https://github.com/jonatanoficial-bit/IMV-EAD"),
   appCatalogItem("imv-plataforma", "IMV Plataforma", "Educação", "Plataforma de alunos e cursos", "app-educacao", "https://github.com/jonatanoficial-bit/IMV-PLATAFORMA"),
   appCatalogItem("imvpedia", "IMVPEDIA", "Educação", "Biblioteca educacional", "app-educacao", "https://github.com/jonatanoficial-bit/IMVPEDIA"),
@@ -103,20 +104,20 @@ const appCatalog: CatalogItem[] = [
   appCatalogItem("vocal-architect", "Vocal Architect", "Música e Áudio", "Treinamento e arquitetura vocal", "app-musica", "https://github.com/jonatanoficial-bit/vocal-architect"),
   appCatalogItem("vocal-lab", "Vocal Lab", "Música e Áudio", "Laboratório vocal", "app-musica", "https://github.com/jonatanoficial-bit/VOCAL-LAB"),
   appCatalogItem("voz-perfeita", "Voz Perfeita", "Música e Áudio", "Treinamento vocal", "app-musica", "https://github.com/jonatanoficial-bit/VOZ-PERFEITA"),
-  appCatalogItem("bombeiro-sp", "Bombeiro SP", "Saúde e Segurança", "Gestão/treinamento de emergência", "app-saude", "https://github.com/jonatanoficial-bit/BOMBEIRO-SP-1.1", "https://bombeiro-sp-1-1.vercel.app"),
+  appCatalogItem("bombeiro-sp", "Bombeiro SP", "Saúde e Segurança", "Gestão/treinamento de emergência", "app-saude", "https://github.com/jonatanoficial-bit/BOMBEIRO-SP-1.1", "https://bombeiro-sp-1-1.vercel.app", coverUrl("bombeiro-sp.png")),
   appCatalogItem("lei-lucas", "Lei Lucas", "Saúde e Segurança", "Primeiros socorros e formação", "app-saude", "https://github.com/jonatanoficial-bit/LEI-LUCAS-1.0"),
   appCatalogItem("primeiro-socorro", "Primeiro Socorro", "Saúde e Segurança", "Educação em primeiros socorros", "app-saude", "https://github.com/jonatanoficial-bit/PRIMEIRO-SOCORRO"),
   appCatalogItem("gestao-empresarial", "Gestão Empresarial", "Gestão e Negócios", "Administração empresarial", "app-gestao", "https://github.com/jonatanoficial-bit/GESTAO-EMPRESARIAL"),
   appCatalogItem("vale-businesses", "Vale Businesses", "Gestão e Negócios", "Negócios e administração", "app-gestao", "https://github.com/jonatanoficial-bit/VALE-BUSINESSES-1.0"),
   appCatalogItem("vale-gestao-de-carreira", "Vale Gestão de Carreira", "Gestão e Negócios", "Gestão de carreira", "app-gestao", "https://github.com/jonatanoficial-bit/VALE-GESTAO-DE-CARREIRA"),
   appCatalogItem("vale-producao-crm", "Vale Produção CRM", "Gestão e Negócios", "CRM musical e artistas", "app-gestao", "https://github.com/jonatanoficial-bit/vale-producao-CRM"),
-  appCatalogItem("clarofin", "Clarofin", "Finanças", "Controle financeiro", "app-financas", "https://github.com/jonatanoficial-bit/Clarofin"),
+  appCatalogItem("clarofin", "Clarofin", "Finanças", "Controle financeiro", "app-financas", "https://github.com/jonatanoficial-bit/Clarofin", undefined, coverUrl("clarofin.jpg")),
   appCatalogItem("vale-orcamento", "Vale Orçamento", "Finanças", "Orçamentos", "app-financas", "https://github.com/jonatanoficial-bit/Vale-Or-amento-v1.0"),
   appCatalogItem("mastercheck", "MasterCheck", "Produtividade e IA", "Listas e conferência", "app-produtividade", "https://github.com/jonatanoficial-bit/MasterCheck-1.0"),
   appCatalogItem("vale-intelligence", "Vale Intelligence", "Produtividade e IA", "Assistente e inteligência artificial", "app-produtividade", "https://github.com/jonatanoficial-bit/vale-intelligence"),
-  appCatalogItem("app-mercado", "App Mercado", "Comércio", "Compras e catálogo comercial", "app-comercio", "https://github.com/jonatanoficial-bit/App-Mercado"),
+  appCatalogItem("app-mercado", "App Mercado", "Comércio", "Compras e catálogo comercial", "app-comercio", "https://github.com/jonatanoficial-bit/App-Mercado", undefined, coverUrl("app-mercado.png")),
   appCatalogItem("mercado-premium", "Mercado Premium", "Comércio", "Loja e marketplace", "app-comercio", "https://github.com/jonatanoficial-bit/MERCADO-PREMIUM-1.1"),
-  appCatalogItem("evento-legal", "Evento Legal", "Eventos", "Planejamento de eventos", "app-eventos", "https://github.com/jonatanoficial-bit/EVENTO-LEGAL-1.0"),
+  appCatalogItem("evento-legal", "Evento Legal", "Eventos", "Planejamento de eventos", "app-eventos", "https://github.com/jonatanoficial-bit/EVENTO-LEGAL-1.0", undefined, coverUrl("evento-legal.png")),
   appCatalogItem("gerador-de-serial", "Gerador de Serial", "Utilitários", "Geração de códigos e seriais", "app-utilitarios", "https://github.com/jonatanoficial-bit/GERADOR-DE-SERIAL-1.0"),
   appCatalogItem("vale-store", "Vale Store", "Plataformas", "Vitrine e distribuição", "app-plataformas", "https://github.com/jonatanoficial-bit/vale-store-1.0")
 ];
@@ -147,7 +148,7 @@ const catalog: CatalogItem[] = [
   { id: "moto-racing-manager", title: "Moto Racing Manager", productType: "Jogo", category: "Corridas", subcategory: "Motovelocidade e gestão", categoryId: "game-corridas", art: "moto", cover: coverUrl("moto-racing-manager.png"), tagline: "Velocidade com estratégia", description: "Gerencie pilotos, equipe e cada decisão da temporada nas pistas de motovelocidade.", externalUrl: "https://moto-gp-one.vercel.app" },
   { id: "vale-basket-manager", title: "Vale Basket Manager", productType: "Jogo", category: "Esportes", subcategory: "Basquete", categoryId: "game-esportes", art: "basket", cover: coverUrl("vale-basket-manager.png"), tagline: "Rumo ao título", description: "Monte o elenco, desenhe jogadas e leve sua equipe à conquista do campeonato.", repositoryUrl: "https://github.com/jonatanoficial-bit/Basketball-Vale" },
   { id: "naval-battle", title: "Naval Battle", productType: "Jogo", category: "Estratégia", subcategory: "Batalha naval e tática", categoryId: "game-estrategia", art: "naval", cover: coverUrl("naval-battle.png"), tagline: "Domínio global", description: "Planeje frotas, proteja rotas e domine os mares em uma campanha de estratégia naval.", repositoryUrl: "https://github.com/jonatanoficial-bit/Naval-battle" },
-  { id: "world-protocol", title: "World Protocol", productType: "Jogo", category: "Estratégia", subcategory: "Geopolítica e economia", categoryId: "game-estrategia", art: "protocol", tagline: "Cada decisão repercute", description: "Equilibre diplomacia, economia e influência em decisões de escala global.", repositoryUrl: "https://github.com/jonatanoficial-bit/World-Protocol-1.0" },
+  { id: "world-protocol", title: "World Protocol", productType: "Jogo", category: "Estratégia", subcategory: "Geopolítica e economia", categoryId: "game-estrategia", art: "protocol", cover: coverUrl("world-protocol.png"), tagline: "Cada decisão repercute", description: "Equilibre diplomacia, economia e influência em decisões de escala global.", repositoryUrl: "https://github.com/jonatanoficial-bit/World-Protocol-1.0" },
   { id: "simulador-politico", title: "Simulador Político", productType: "Jogo", category: "Estratégia", subcategory: "Governo e política", categoryId: "game-estrategia", art: "politico", cover: coverUrl("simulador-politico.png"), tagline: "Ascensão ao poder", description: "Construa alianças, conduza decisões públicas e encontre seu caminho até a liderança.", externalUrl: "https://politica-simulator-vale-edition.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/POLITICA-SIMULATOR-VALE-EDITION" },
   { id: "king-simulator", title: "King Simulator", productType: "Jogo", category: "Estratégia", subcategory: "Reino e administração medieval", categoryId: "game-estrategia", art: "king", cover: coverUrl("king-simulator.png"), tagline: "O rei decide", description: "Ouça seu conselho, administre o reino e escreva uma dinastia duradoura.", repositoryUrl: "https://github.com/jonatanoficial-bit/KING-SIMULATOR-1.0" },
   { id: "last-call-dispatch", title: "Last Call Dispatch", productType: "Jogo", category: "Simuladores", subcategory: "Atendimento de emergência", categoryId: "game-simuladores", art: "dispatch", cover: coverUrl("last-call-dispatch.png"), tagline: "Cada chamada é decisiva", description: "Coordene respostas de emergência em uma rede de cidades e mantenha operações críticas em movimento.", externalUrl: "https://last-call-dispatch-operator-1-0.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/Last-Call-Dispatch-Operator-1.0" },
@@ -158,7 +159,7 @@ const catalog: CatalogItem[] = [
   { id: "valley-city-casefiles", title: "Valley City Casefiles", productType: "Jogo", category: "Investigação", subcategory: "Carreira investigativa e dossiês", categoryId: "game-investigacao", art: "casefiles", tagline: "Dossiês sob pressão", description: "Investigue pistas, avance na carreira e resolva os casos mais complexos de Valley City.", externalUrl: "https://valley-city-casefiles-v1.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/Valley-City-Casefiles-v1" },
   { id: "extincao", title: "Extinção", productType: "Jogo", category: "Aventura e Sobrevivência", subcategory: "Apocalipse e escolhas narrativas", categoryId: "game-aventura", art: "extincao", cover: coverUrl("extincao.png"), tagline: "Fuga em Florença", description: "Sobreviva ao colapso, proteja sua família e faça escolhas em uma cidade tomada pelo caos.", repositoryUrl: "https://github.com/jonatanoficial-bit/extincao" },
   { id: "mundo-do-som", title: "Mundo do Som", productType: "Jogo", category: "Educativos", subcategory: "Jogos de educação musical", categoryId: "game-educativos", art: "som", cover: coverUrl("mundo-do-som.png"), tagline: "Aventura musical", description: "Explore ritmos, instrumentos e desafios musicais em uma aventura para aprender brincando.", externalUrl: "https://mundo-do-som.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/mundo-do-som" },
-  { id: "vale-quizz", title: "Vale Quizz", productType: "Jogo", category: "Educativos", subcategory: "Perguntas e respostas", categoryId: "game-educativos", art: "quizz", tagline: "Perguntas rumo ao milhão", description: "Teste seu conhecimento, avance por rodadas e dispute uma jornada de perguntas e respostas.", externalUrl: "https://vale-quizz.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/Vale-quizz" },
+  { id: "vale-quizz", title: "Vale Quizz", productType: "Jogo", category: "Educativos", subcategory: "Perguntas e respostas", categoryId: "game-educativos", art: "quizz", cover: coverUrl("vale-quizz.png"), tagline: "Perguntas rumo ao milhão", description: "Teste seu conhecimento, avance por rodadas e dispute uma jornada de perguntas e respostas.", externalUrl: "https://vale-quizz.vercel.app", repositoryUrl: "https://github.com/jonatanoficial-bit/Vale-quizz" },
   ...appCatalog
 ];
 
@@ -169,13 +170,12 @@ const defaultSettings: PlayerSettings = { controllerNavigation: true, reducedMot
 
 function accessLabel(item: CatalogItem) {
   if (item.externalUrl) return item.productType === "Jogo" ? "Jogar" : "Abrir app";
-  if (item.repositoryUrl) return "Ver projeto";
-  return "Acesso pendente";
+  return "Sem link jogável";
 }
 
 function accessStatus(item: CatalogItem) {
   if (item.externalUrl) return "Link direto informado";
-  if (item.repositoryUrl) return "Repositório oficial";
+  if (item.repositoryUrl) return "Link jogável não informado";
   return "Aguardando endereço";
 }
 
@@ -374,18 +374,22 @@ function App() {
 
   const play = (item: CatalogItem) => {
     setDetail(null);
-    const destination = item.externalUrl || item.repositoryUrl;
-    if (!destination) {
-      showToast(item.title + " ainda aguarda um endereço", "O catálogo já está organizado; este item ainda não possui link direto nem repositório registrado no inventário.");
+    if (!item.externalUrl) {
+      showToast(item.title + " ainda não tem link jogável", "O Vale Games Play não abrirá o GitHub como se fosse o jogo. Quando a URL publicada for registrada, o botão Jogar será ativado.");
       return;
     }
-    const isDirect = Boolean(item.externalUrl);
     if (settings.openLinksInNewTab) {
-      window.open(destination, "_blank", "noopener,noreferrer");
-      showToast("Abrindo " + item.title, isDirect ? "O acesso direto abriu em outra aba. Esta aba do Vale Games Play permanece pronta para a próxima escolha." : "O inventário só registra o repositório deste item; ele abriu em outra aba sem interromper o Vale Games Play.");
+      window.open(item.externalUrl, "_blank", "noopener,noreferrer");
+      showToast("Abrindo " + item.title, "O acesso direto abriu em outra aba. Esta aba do Vale Games Play permanece pronta para a próxima escolha.");
       return;
     }
-    window.location.assign(destination);
+    window.location.assign(item.externalUrl);
+  };
+
+  const openRepository = (item: CatalogItem) => {
+    if (!item.repositoryUrl) return;
+    window.open(item.repositoryUrl, "_blank", "noopener,noreferrer");
+    showToast("Abrindo repositório de " + item.title, "Este acesso é o código-fonte do projeto; ele não é apresentado como versão jogável.");
   };
 
   const updateSetting = (key: keyof PlayerSettings) => setSettings((current) => ({ ...current, [key]: !current[key] }));
@@ -413,7 +417,7 @@ function App() {
       : <CatalogView section={section} items={sectionItems} query={query} activeCategoryId={activeCategoryId} activeCategory={activeCategory} subcategories={visibleSubcategories} activeSubcategory={activeSubcategory} onSelectCategory={exploreCategory} onSelectSubcategory={setActiveSubcategory} favorites={favorites} onFavorite={toggleFavorite} onOpen={setDetail} onPlay={play} onNavigate={selectMenu} />}
 
     <nav className="mobile-nav" aria-label="Navegação móvel">{menu.map((item, index) => <button key={item} className={section === item ? "active" : ""} onClick={() => selectMenu(item)}><span>{["⌂", "⌕", "◌", "▦", "♡"][index]}</span>{item}</button>)}</nav>
-    {detail && <DetailModal item={detail} favorite={favorites.includes(detail.id)} onClose={() => setDetail(null)} onPlay={play} onFavorite={() => toggleFavorite(detail)} />}
+    {detail && <DetailModal item={detail} favorite={favorites.includes(detail.id)} onClose={() => setDetail(null)} onPlay={play} onRepository={openRepository} onFavorite={() => toggleFavorite(detail)} />}
     {settingsOpen && <SettingsModal settings={settings} onToggle={updateSetting} onClose={() => setSettingsOpen(false)} />}
     {toast && <div className="toast" role="status"><span>✓</span>{toast.message}<small>{toast.caption}</small></div>}
   </main>;
@@ -464,14 +468,13 @@ function EmptyState({ section, onNavigate }: { section: Section; onNavigate: (se
 function GameCard({ item, compact = false, favorite, onFavorite, onOpen, onPlay }: { item: CatalogItem; compact?: boolean; favorite: boolean; onFavorite: (item: CatalogItem) => void; onOpen: (item: CatalogItem) => void; onPlay: (item: CatalogItem) => void }) {
   const access = accessLabel(item);
   const coverStyle = item.cover ? { backgroundImage: "url(\"" + item.cover + "\")" } : undefined;
-  return <article className={["game-card", compact ? "compact" : ""].filter(Boolean).join(" ")}><button className={["cover", "cover-" + item.art, item.cover ? "" : "missing-cover"].filter(Boolean).join(" ")} style={coverStyle} onClick={() => onOpen(item)} aria-label={"Ver detalhes de " + item.title}>{!item.cover && <span className="cover-fallback" aria-hidden="true"><b>{fallbackSymbol(item)}</b><small>VALE {item.productType.toUpperCase()}</small></span>}<span className="cover-shine" /></button><div className="card-info"><div><h3>{item.title}</h3><span>{item.category}</span><small className="subcategory-label">{item.subcategory}</small></div><button className={favorite ? "heart saved" : "heart"} aria-label={favorite ? "Remover dos favoritos" : "Adicionar aos favoritos"} onClick={() => onFavorite(item)}>{favorite ? "♥" : "♡"}</button></div>{item.progress !== undefined && item.externalUrl ? <div className="progress"><span><i style={{ width: item.progress + "%" }} /></span><b>{item.progress}%</b></div> : <button className="play-link" onClick={() => onPlay(item)}>{access} <span>→</span></button>}</article>;
+  return <article className={["game-card", compact ? "compact" : ""].filter(Boolean).join(" ")}><button className={["cover", "cover-" + item.art, item.cover ? "" : "missing-cover"].filter(Boolean).join(" ")} style={coverStyle} onClick={() => onOpen(item)} aria-label={"Ver detalhes de " + item.title}>{!item.cover && <span className="cover-fallback" aria-hidden="true"><b>{fallbackSymbol(item)}</b><small>VALE {item.productType.toUpperCase()}</small></span>}<span className="cover-shine" /></button><div className="card-info"><div><h3>{item.title}</h3><span>{item.category}</span><small className="subcategory-label">{item.subcategory}</small></div><button className={favorite ? "heart saved" : "heart"} aria-label={favorite ? "Remover dos favoritos" : "Adicionar aos favoritos"} onClick={() => onFavorite(item)}>{favorite ? "♥" : "♡"}</button></div>{item.progress !== undefined && item.externalUrl ? <div className="progress"><span><i style={{ width: item.progress + "%" }} /></span><b>{item.progress}%</b></div> : <button className="play-link" onClick={() => onPlay(item)} disabled={!item.externalUrl}>{access} {item.externalUrl && <span>→</span>}</button>}</article>;
 }
 
-function DetailModal({ item, favorite, onClose, onPlay, onFavorite }: { item: CatalogItem; favorite: boolean; onClose: () => void; onPlay: (item: CatalogItem) => void; onFavorite: () => void }) {
+function DetailModal({ item, favorite, onClose, onPlay, onRepository, onFavorite }: { item: CatalogItem; favorite: boolean; onClose: () => void; onPlay: (item: CatalogItem) => void; onRepository: (item: CatalogItem) => void; onFavorite: () => void }) {
   const coverStyle = item.cover ? { backgroundImage: "url(\"" + item.cover + "\")" } : undefined;
   const directAccess = Boolean(item.externalUrl);
-  const hasAccess = Boolean(item.externalUrl || item.repositoryUrl);
-  return <div className="modal-backdrop" role="presentation" onMouseDown={onClose}><section className="detail-modal" role="dialog" aria-modal="true" aria-label={"Detalhes de " + item.title} onMouseDown={(event) => event.stopPropagation()}><button className="close" onClick={onClose} aria-label="Voltar à vitrine">×</button><div className={["detail-art", "cover-" + item.art, item.cover ? "" : "missing-cover"].filter(Boolean).join(" ")} style={coverStyle}>{!item.cover && <span className="cover-fallback" aria-hidden="true"><b>{fallbackSymbol(item)}</b><small>VALE {item.productType.toUpperCase()}</small></span>}</div><div className="detail-copy"><span className="tag">{item.productType} · {item.category}</span><h2>{item.title}</h2><p>{item.description}</p><div className="detail-metadata"><span><b>CATEGORIA</b>{item.category}</span><span><b>SUBCATEGORIA</b>{item.subcategory}</span><span><b>ACESSO</b>{accessStatus(item)}</span></div><div className="modal-actions">{hasAccess && <button className="primary-action" onClick={() => onPlay(item)}>▶ {directAccess ? (item.productType === "Jogo" ? "Jogar agora" : "Abrir app") : "Ver projeto"}</button>}<button className={favorite ? "outline-action favorite" : "outline-action"} onClick={onFavorite}>{favorite ? "♥ Na biblioteca" : "♡ Favoritar"}</button><button className="text-action" onClick={onClose}>← Voltar à vitrine</button></div><small className="placeholder-note">{directAccess ? "O inventário informa um acesso direto; ele abre em outra aba por padrão e o Vale Games Play continua aberto para a próxima escolha." : item.repositoryUrl ? "O inventário registra o repositório oficial, mas ainda não informa uma URL direta de jogo ou aplicativo. O botão abre o projeto, sem fingir que ele é uma versão jogável." : "O item está catalogado, mas o inventário ainda não informa um endereço de acesso."}</small></div></section></div>;
+  return <div className="modal-backdrop" role="presentation" onMouseDown={onClose}><section className="detail-modal" role="dialog" aria-modal="true" aria-label={"Detalhes de " + item.title} onMouseDown={(event) => event.stopPropagation()}><button className="close" onClick={onClose} aria-label="Voltar à vitrine">×</button><div className={["detail-art", "cover-" + item.art, item.cover ? "" : "missing-cover"].filter(Boolean).join(" ")} style={coverStyle}>{!item.cover && <span className="cover-fallback" aria-hidden="true"><b>{fallbackSymbol(item)}</b><small>VALE {item.productType.toUpperCase()}</small></span>}</div><div className="detail-copy"><span className="tag">{item.productType} · {item.category}</span><h2>{item.title}</h2><p>{item.description}</p><div className="detail-metadata"><span><b>CATEGORIA</b>{item.category}</span><span><b>SUBCATEGORIA</b>{item.subcategory}</span><span><b>ACESSO</b>{accessStatus(item)}</span></div><div className="modal-actions">{directAccess && <button className="primary-action" onClick={() => onPlay(item)}>▶ {item.productType === "Jogo" ? "Jogar agora" : "Abrir app"}</button>}{item.repositoryUrl && <button className="outline-action" onClick={() => onRepository(item)}>↗ Repositório</button>}<button className={favorite ? "outline-action favorite" : "outline-action"} onClick={onFavorite}>{favorite ? "♥ Na biblioteca" : "♡ Favoritar"}</button><button className="text-action" onClick={onClose}>← Voltar à vitrine</button></div><small className="placeholder-note">{directAccess ? "O inventário informa um acesso direto; ele abre em outra aba por padrão e o Vale Games Play continua aberto para a próxima escolha." : item.repositoryUrl ? "A versão jogável ainda não foi informada no inventário. O repositório pode ser aberto separadamente, mas não é exibido como botão Jogar." : "O item está catalogado, mas o inventário ainda não informa um endereço de acesso."}</small></div></section></div>;
 }
 
 function SettingsModal({ settings, onToggle, onClose }: { settings: PlayerSettings; onToggle: (key: keyof PlayerSettings) => void; onClose: () => void }) {
